@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yuvasanthi &amp; Balakumaran | திருமண அழைப்பிதழ்</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Tamil:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon: #7A1F2B;
+    --maroon-deep: #4E1119;
+    --gold: #C89B3C;
+    --gold-light: #E3C588;
+    --gold-dim: #B08A3E;
+    --ivory: #FBF3E3;
+    --ivory-dim: #F3E9D6;
+    --teak: #2E1A12;
+    --green: #3F5C3A;
+    --green-leaf: #4E7A47;
+    --marigold: #E08A2E;
+    --sky-top: #F6DCAE;
+    --sky-bottom: #FBF3E3;
+    --shadow: rgba(46, 26, 18, 0.2);
+    --stone-light: #CBB48D;
+    --stone-mid: #A6875C;
+    --stone-dark: #7C6748;
+    --stone-deep: #5B4A34;
+    --ink: #3D2A1B;
+    --sky-blue: #CFE8EC;
+    --meadow-far: #DCEAC4;
+    --meadow-mid: #B7D98C;
+    --meadow-near: #92C06A;
+    --roof-red: #C1553B;
+    --cottage-wall: #F6ECD4;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--ivory);
+    color: var(--teak);
+    font-family: 'EB Garamond', 'Noto Sans Tamil', serif;
+    overflow-x: hidden;
+  }
+
+  .tamil{ font-family: 'Noto Serif Tamil', serif; }
+
+  /* ================= VILLAGE BACKGROUND (fixed) ================= */
+  .village-bg{
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    background: linear-gradient(180deg, var(--sky-blue) 0%, #EAF3DD 55%, var(--meadow-far) 100%);
+    overflow: hidden;
+  }
+  .village-bg svg{ position: absolute; bottom: 0; left: 0; width: 100%; height: 46vh; }
+
+  .sun{
+    position: absolute;
+    top: 8vh; left: 50%;
+    width: 90px; height: 90px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(227,197,136,0.9), rgba(227,197,136,0) 70%);
+    filter: blur(1px);
+  }
+
+  .cloud{
+    position: absolute;
+    opacity: 0.55;
+    animation: drift 60s linear infinite;
+  }
+  .cloud.c1{ top: 10vh; width: 120px; animation-duration: 70s; }
+  .cloud.c2{ top: 18vh; width: 80px; animation-duration: 95s; animation-delay: -30s; opacity: 0.4; }
+  @keyframes drift{
+    from{ transform: translateX(-140px); }
+    to{ transform: translateX(110vw); }
+  }
+
+  .bird{
+    position: absolute;
+    top: 14vh;
+    width: 22px;
+    opacity: 0.6;
+    animation: fly 34s linear infinite;
+  }
+  .bird.b2{ top: 20vh; animation-duration: 46s; animation-delay: -12s; width: 16px; }
+  @keyframes fly{
+    0%{ transform: translate(-60px, 0); }
+    50%{ transform: translate(55vw, -18px); }
+    100%{ transform: translate(115vw, 4px); }
+  }
+
+  /* ================= PLANT COLUMNS (fixed, sway in the wind) ================= */
+  .plant-col{
+    position: fixed;
+    top: 0; bottom: 0;
+    width: 110px;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .plant-col.left{ left: 0; }
+  .plant-col.right{ right: 0; transform: scaleX(-1); }
+
+  .leaf-cluster{
+    position: absolute;
+    width: 150px;
+    transform-origin: 46% 100%;
+    animation: sway 5.5s ease-in-out infinite;
+  }
+  .leaf-cluster svg{ width: 100%; height: auto; display: block; overflow: visible; }
+  .leaf-cluster.lc1{ top: -2%; animation-duration: 6s; }
+  .leaf-cluster.lc2{ top: 20%; animation-duration: 5.2s; animation-delay: -1.4s; }
+  .leaf-cluster.lc3{ top: 42%; animation-duration: 6.4s; animation-delay: -3s; }
+  .leaf-cluster.lc4{ top: 64%; animation-duration: 5.6s; animation-delay: -0.6s; }
+  .leaf-cluster.lc5{ top: 84%; animation-duration: 6.1s; animation-delay: -2.2s; }
+
+  @keyframes sway{
+    0%, 100%{ transform: rotate(-3.5deg); }
+    50%{ transform: rotate(4deg); }
+  }
+
+  @media (max-width: 720px){
+    .plant-col{ width: 60px; opacity: 0.8; }
+    .leaf-cluster{ width: 78px; }
+  }
+  @media (max-width: 480px){
+    .plant-col{ width: 42px; opacity: 0.65; }
+    .leaf-cluster{ width: 56px; }
+  }
+
+  /* ================= FIRECRACKER PARTICLES ================= */
+  .cracker-layer{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 40;
+  }
+  .spark{
+    position: absolute;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    left: 0; top: 0;
+    animation: spark-burst 0.9s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  @keyframes spark-burst{
+    0%{ transform: translate(0,0) scale(1); opacity: 1; }
+    70%{ opacity: 1; }
+    100%{ transform: translate(var(--tx), var(--ty)) scale(0.25); opacity: 0; }
+  }
+  .flash{
+    position: absolute;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFF6DE 0%, var(--gold-light) 45%, transparent 75%);
+    transform: translate(-50%, -50%) scale(0.3);
+    animation: flash-pop 0.5s ease-out forwards;
+  }
+  @keyframes flash-pop{
+    0%{ transform: translate(-50%,-50%) scale(0.2); opacity: 1; }
+    100%{ transform: translate(-50%,-50%) scale(2.6); opacity: 0; }
+  }
+  .trail{
+    position: absolute;
+    width: 3px;
+    background: linear-gradient(180deg, transparent, var(--gold-light));
+    left: 0; bottom: 0;
+    animation: trail-up 0.55s ease-out forwards;
+    border-radius: 2px;
+  }
+  @keyframes trail-up{
+    0%{ height: 0; opacity: 0.9; }
+    100%{ height: var(--th); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .cloud, .bird, .leaf-cluster{ animation: none !important; }
+    .cracker-layer{ display: none !important; }
+  }
+
+  /* ================= HERO ================= */
+  .hero{
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 4vh 8vw 8vh;
+    position: relative;
+    z-index: 2;
+  }
+
+  .gopuram-tower{
+    width: min(80vw, 420px);
+    margin: 0 auto;
+    position: relative;
+    padding: 1.5rem 0.5rem 0;
+  }
+  .gopuram-tower::before{
+    content: "";
+    position: absolute;
+    inset: 0.5rem 0 0.5rem;
+    background: radial-gradient(ellipse at center, rgba(251,243,227,0.85) 0%, rgba(251,243,227,0.55) 60%, rgba(251,243,227,0) 85%);
+    z-index: -1;
+    border-radius: 50%;
+  }
+  .gopuram-tower svg{ width: 100%; height: auto; display: block; overflow: visible; }
+
+  .tier{
+    opacity: 0;
+    transform: translateY(-14px);
+    animation: tier-drop 0.7s cubic-bezier(.2,.8,.3,1) forwards;
+    transform-origin: center bottom;
+  }
+  @keyframes tier-drop{ to{ opacity: 1; transform: translateY(0); } }
+
+  .kalasham{ opacity: 0; animation: rise-simple 0.6s ease forwards 2.3s; }
+  @keyframes rise-simple{ from{ opacity: 0; transform: translateY(-8px);} to{ opacity: 1; transform: translateY(0);} }
+
+  .bell{ transform-origin: top center; animation: bell-swing 3.6s ease-in-out infinite 2.8s; }
+  @keyframes bell-swing{
+    0%, 100%{ transform: rotate(0deg); }
+    25%{ transform: rotate(3.5deg); }
+    75%{ transform: rotate(-3.5deg); }
+  }
+
+  .invocation{
+    font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+    letter-spacing: 0.12em;
+    color: var(--maroon);
+    margin-top: 0.6rem;
+    opacity: 0;
+    animation: rise 1s ease forwards 3s;
+  }
+  .invocation-sub{
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-top: 0.4rem;
+    opacity: 0;
+    animation: rise 1s ease forwards 3.25s;
+  }
+
+  .arch-frame{
+    margin-top: 2rem;
+    padding: 2.6rem 1.5rem 1.5rem;
+    position: relative;
+    opacity: 0;
+    animation: rise 1.1s ease forwards 3.5s;
+  }
+  .arch-frame svg.arch-bg{
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: min(92vw, 480px);
+    height: auto;
+    z-index: -1;
+  }
+
+  .name-line{
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(2.3rem, 7.5vw, 4rem);
+    color: var(--maroon-deep);
+    line-height: 1.15;
+  }
+  .name-tamil{
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: clamp(1.05rem, 2.8vw, 1.35rem);
+    color: var(--green);
+    margin-top: 0.15rem;
+  }
+  .amp{
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+    color: var(--gold);
+    margin: 0.15rem 0;
+  }
+
+  .divider{ width: 140px; height: 20px; margin: 1.6rem auto 1.1rem; opacity: 0; animation: rise 1s ease forwards 4.1s; }
+  .divider svg{ width: 100%; height: 100%; }
+  .divider path{ stroke: var(--gold); fill: none; stroke-width: 1.3; }
+  .divider circle{ fill: var(--maroon); }
+
+  .date-banner{
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 2.8vw, 1.4rem);
+    letter-spacing: 0.15em;
+    color: var(--teak);
+    opacity: 0;
+    animation: rise 1s ease forwards 4.35s;
+  }
+  .date-banner .day{ color: var(--maroon); font-weight: 600; }
+
+  @keyframes rise{ from{ opacity: 0; transform: translateY(14px);} to{ opacity: 1; transform: translateY(0);} }
+
+  .scroll-cue{
+    margin-top: 3rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--maroon);
+    opacity: 0;
+    cursor: pointer;
+    animation: rise 1s ease forwards 4.9s, bob 2.4s ease-in-out infinite 5.9s;
+  }
+  @keyframes bob{ 0%, 100%{ transform: translateY(0);} 50%{ transform: translateY(6px);} }
+
+  /* ================= SECTIONS ================= */
+  .section{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 5vh 8vw 2vh;
+    position: relative;
+    z-index: 2;
+  }
+
+  .reveal{
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.in-view{ opacity: 1; transform: translateY(0); }
+
+  .mandapam{ display: flex; align-items: stretch; margin-bottom: 3rem; }
+  .pillar{ flex: 0 0 auto; width: 18px; }
+  .pillar svg{ width: 100%; height: 100%; }
+  @media (max-width: 560px){ .pillar{ width: 10px; } }
+
+  .card{
+    flex: 1 1 auto;
+    background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(243,233,214,0.96) 100%);
+    border-top: 1px solid var(--gold-light);
+    border-bottom: 1px solid var(--gold-light);
+    padding: 2.2rem 1.6rem 2rem;
+    position: relative;
+    box-shadow: 0 18px 40px -22px var(--shadow);
+    text-align: center;
+    backdrop-filter: blur(1px);
+  }
+  .card::before{
+    content: "";
+    position: absolute; top: -1px; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .bell-icon{
+    width: 30px; margin: 0 auto 0.8rem; color: var(--gold-dim);
+    transform-origin: top center;
+    animation: bell-swing-small 4s ease-in-out infinite;
+  }
+  .bell-icon svg{ width: 100%; height: auto; }
+  @keyframes bell-swing-small{ 0%, 100%{ transform: rotate(0deg);} 50%{ transform: rotate(4deg);} }
+
+  .card h3{ font-family: 'Noto Serif Tamil', serif; font-size: 1.3rem; color: var(--maroon-deep); margin: 0 0 0.15rem; }
+  .card .en-label{ font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--green); letter-spacing: 0.08em; margin-bottom: 1.3rem; }
+  .card .time{ font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 600; color: var(--teak); margin-bottom: 0.3rem; }
+  .card .venue{ font-size: 1.02rem; line-height: 1.55; color: var(--teak); max-width: 42ch; margin: 0.6rem auto 0; }
+  .card .directions{
+    display: inline-block; margin-top: 1.1rem;
+    font-family: 'Noto Serif Tamil', serif; font-size: 0.85rem; letter-spacing: 0.04em;
+    color: var(--maroon); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 2px;
+    transition: opacity 0.2s ease;
+  }
+  .card .directions:hover{ opacity: 0.65; }
+
+  .footer{
+    text-align: center;
+    padding: 4vh 8vw 10vh;
+    max-width: 620px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .blessing{ font-family: 'Noto Serif Tamil', serif; font-size: 1.05rem; line-height: 1.9; color: var(--teak); margin-bottom: 1.6rem; }
+  .blessing-en{ font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.05rem; color: var(--green); }
+  .footer-names{ margin-top: 2.4rem; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.4rem; color: var(--maroon-deep); }
+  .footer-mini{ width: 90px; margin: 1.6rem auto 0; opacity: 0.85; }
+  .footer-mini svg{ width: 100%; }
+
+  @media (prefers-reduced-motion: reduce){
+    .tier, .kalasham, .bell, .invocation, .invocation-sub,
+    .arch-frame, .divider, .date-banner, .scroll-cue, .bell-icon{
+      animation: none !important; opacity: 1 !important; transform: none !important;
+    }
+    .reveal{ opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ FIXED VILLAGE BACKGROUND ============ -->
+<div class="village-bg" aria-hidden="true">
+  <div class="sun"></div>
+  <div class="cloud c1"><svg viewBox="0 0 120 40"><ellipse cx="30" cy="24" rx="26" ry="14" fill="#fff"/><ellipse cx="60" cy="16" rx="30" ry="16" fill="#fff"/><ellipse cx="90" cy="24" rx="22" ry="12" fill="#fff"/></svg></div>
+  <div class="cloud c2"><svg viewBox="0 0 120 40"><ellipse cx="30" cy="24" rx="26" ry="14" fill="#fff"/><ellipse cx="60" cy="16" rx="30" ry="16" fill="#fff"/><ellipse cx="90" cy="24" rx="22" ry="12" fill="#fff"/></svg></div>
+  <div class="bird"><svg viewBox="0 0 24 12"><path d="M0,6 Q6,-2 12,6 Q18,-2 24,6" stroke="#7A1F2B" stroke-width="1.4" fill="none"/></svg></div>
+  <div class="bird b2"><svg viewBox="0 0 24 12"><path d="M0,6 Q6,-2 12,6 Q18,-2 24,6" stroke="#7A1F2B" stroke-width="1.4" fill="none"/></svg></div>
+
+  <svg viewBox="0 0 1000 320" preserveAspectRatio="none">
+    <!-- far rolling hills -->
+    <path d="M0,150 Q120,110 260,140 T520,125 T780,145 T1000,130 L1000,320 L0,320 Z" fill="var(--meadow-far)"/>
+    <!-- mid rolling hills -->
+    <path d="M0,195 Q140,155 300,182 T600,170 T1000,188 L1000,320 L0,320 Z" fill="var(--meadow-mid)"/>
+
+    <!-- small round cartoon trees, mid layer -->
+    <g opacity="0.9">
+      <g transform="translate(150,175)"><circle cx="0" cy="-2" r="16" fill="var(--meadow-near)"/><circle cx="-10" cy="4" r="12" fill="var(--meadow-mid)"/><circle cx="10" cy="4" r="12" fill="var(--meadow-mid)"/><rect x="-3" y="10" width="6" height="14" fill="#7C6748"/></g>
+      <g transform="translate(650,168) scale(0.85)"><circle cx="0" cy="-2" r="16" fill="var(--meadow-near)"/><circle cx="-10" cy="4" r="12" fill="var(--meadow-mid)"/><circle cx="10" cy="4" r="12" fill="var(--meadow-mid)"/><rect x="-3" y="10" width="6" height="14" fill="#7C6748"/></g>
+      <g transform="translate(910,180) scale(0.7)"><circle cx="0" cy="-2" r="16" fill="var(--meadow-near)"/><circle cx="-10" cy="4" r="12" fill="var(--meadow-mid)"/><circle cx="10" cy="4" r="12" fill="var(--meadow-mid)"/><rect x="-3" y="10" width="6" height="14" fill="#7C6748"/></g>
+      <g transform="translate(40,190) scale(0.75)"><circle cx="0" cy="-2" r="16" fill="var(--meadow-near)"/><circle cx="-10" cy="4" r="12" fill="var(--meadow-mid)"/><circle cx="10" cy="4" r="12" fill="var(--meadow-mid)"/><rect x="-3" y="10" width="6" height="14" fill="#7C6748"/></g>
+    </g>
+
+    <!-- cartoon cottages -->
+    <g>
+      <g transform="translate(240,205)">
+        <rect x="-24" y="0" width="48" height="30" fill="var(--cottage-wall)" stroke="#B08A3E" stroke-width="1.2"/>
+        <path d="M-30,0 L0,-24 L30,0 Z" fill="var(--roof-red)"/>
+        <rect x="-7" y="12" width="14" height="18" fill="#7C6748"/>
+        <rect x="-18" y="8" width="8" height="8" fill="#CDE8F6" stroke="#B08A3E" stroke-width="0.8"/>
+      </g>
+      <g transform="translate(790,198) scale(0.9)">
+        <rect x="-24" y="0" width="48" height="30" fill="var(--cottage-wall)" stroke="#B08A3E" stroke-width="1.2"/>
+        <path d="M-30,0 L0,-24 L30,0 Z" fill="var(--roof-red)"/>
+        <rect x="-7" y="12" width="14" height="18" fill="#7C6748"/>
+        <rect x="10" y="8" width="8" height="8" fill="#CDE8F6" stroke="#B08A3E" stroke-width="0.8"/>
+      </g>
+    </g>
+
+    <!-- coconut palms, cartoon style -->
+    <g>
+      <g transform="translate(410,215)">
+        <path d="M0,0 Q-6,-40 2,-72" stroke="#7C6748" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <g fill="var(--meadow-near)">
+          <ellipse cx="-18" cy="-78" rx="20" ry="7" transform="rotate(-25 -18 -78)"/>
+          <ellipse cx="18" cy="-78" rx="20" ry="7" transform="rotate(25 18 -78)"/>
+          <ellipse cx="-14" cy="-88" rx="20" ry="6" transform="rotate(-45 -14 -88)"/>
+          <ellipse cx="14" cy="-88" rx="20" ry="6" transform="rotate(45 14 -88)"/>
+          <ellipse cx="0" cy="-92" rx="8" ry="18"/>
+        </g>
+      </g>
+      <g transform="translate(920,208) scale(0.8)">
+        <path d="M0,0 Q-6,-40 2,-72" stroke="#7C6748" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <g fill="var(--meadow-near)">
+          <ellipse cx="-18" cy="-78" rx="20" ry="7" transform="rotate(-25 -18 -78)"/>
+          <ellipse cx="18" cy="-78" rx="20" ry="7" transform="rotate(25 18 -78)"/>
+          <ellipse cx="-14" cy="-88" rx="20" ry="6" transform="rotate(-45 -14 -88)"/>
+          <ellipse cx="14" cy="-88" rx="20" ry="6" transform="rotate(45 14 -88)"/>
+          <ellipse cx="0" cy="-92" rx="8" ry="18"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- distant Thanjavur-style vimana silhouette on the horizon -->
+    <g fill="#8C6B3F" opacity="0.55">
+      <ellipse cx="500" cy="118" rx="15" ry="8"/>
+      <rect x="496" y="122" width="8" height="6"/>
+      <path d="M472,158 L472,148 L485,136 L515,136 L528,148 L528,158 Z"/>
+      <path d="M465,166 L535,166 L535,158 L465,158 Z"/>
+      <path d="M459,174 L541,174 L541,166 L459,166 Z"/>
+      <path d="M452,183 L548,183 L548,174 L452,174 Z"/>
+      <path d="M443,193 L557,193 L557,183 L443,183 Z"/>
+      <rect x="430" y="193" width="140" height="14"/>
+    </g>
+
+    <!-- foreground meadow -->
+    <path d="M0,235 Q160,215 320,232 T650,222 T1000,238 L1000,320 L0,320 Z" fill="var(--meadow-near)"/>
+    <!-- grass tufts + tiny flowers -->
+    <g stroke="#5C8A3E" stroke-width="2" opacity="0.55">
+      <path d="M60,300 l-4,-10 M60,300 l0,-12 M60,300 l4,-10"/>
+      <path d="M260,290 l-4,-10 M260,290 l0,-12 M260,290 l4,-10"/>
+      <path d="M540,300 l-4,-10 M540,300 l0,-12 M540,300 l4,-10"/>
+      <path d="M760,292 l-4,-10 M760,292 l0,-12 M760,292 l4,-10"/>
+      <path d="M940,300 l-4,-10 M940,300 l0,-12 M940,300 l4,-10"/>
+    </g>
+    <g>
+      <circle cx="130" cy="285" r="3" fill="#F2D98A"/>
+      <circle cx="380" cy="278" r="3" fill="#F2C0C8"/>
+      <circle cx="600" cy="288" r="3" fill="#F2D98A"/>
+      <circle cx="850" cy="280" r="3" fill="#F2C0C8"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ============ SWAYING PLANT COLUMNS (filled by generateFronds() below) ============ -->
+<div class="plant-col left" aria-hidden="true">
+  <div class="leaf-cluster lc1" data-type="coconut"></div>
+  <div class="leaf-cluster lc2" data-type="banana"></div>
+  <div class="leaf-cluster lc3" data-type="coconut"></div>
+  <div class="leaf-cluster lc4" data-type="banana"></div>
+  <div class="leaf-cluster lc5" data-type="coconut"></div>
+</div>
+
+<div class="plant-col right" aria-hidden="true">
+  <div class="leaf-cluster lc1" data-type="banana"></div>
+  <div class="leaf-cluster lc2" data-type="coconut"></div>
+  <div class="leaf-cluster lc3" data-type="banana"></div>
+  <div class="leaf-cluster lc4" data-type="coconut"></div>
+  <div class="leaf-cluster lc5" data-type="banana"></div>
+</div>
+
+<!-- ============ FIRECRACKER PARTICLE LAYER ============ -->
+<div class="cracker-layer" id="crackerLayer" aria-hidden="true"></div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="gopuram-tower" aria-hidden="true">
+    <svg viewBox="0 0 300 320">
+      <defs>
+        <pattern id="hatchLight" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="5" stroke="var(--ink)" stroke-width="0.5" opacity="0.4"/>
+        </pattern>
+        <pattern id="hatchDark" patternUnits="userSpaceOnUse" width="3.5" height="3.5" patternTransform="rotate(-45)">
+          <line x1="0" y1="0" x2="0" y2="3.5" stroke="var(--ink)" stroke-width="0.6" opacity="0.6"/>
+        </pattern>
+      </defs>
+
+      <!-- hanging temple bell above the dome -->
+      <g class="bell">
+        <line x1="150" y1="52" x2="150" y2="66" stroke="var(--ink)" stroke-width="1"/>
+        <path d="M143,66 L157,66 L160,78 Q150,84 140,78 Z" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="1"/>
+        <circle cx="150" cy="82" r="2" fill="none" stroke="var(--ink)" stroke-width="0.8"/>
+      </g>
+      <!-- kalasham finial -->
+      <g class="kalasham">
+        <path d="M146,90 L154,90 L152,98 L148,98 Z" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="0.9"/>
+        <ellipse cx="150" cy="88" rx="6" ry="4" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="0.9"/>
+        <path d="M144,84 L156,84 L150,74 Z" fill="none" stroke="var(--ink)" stroke-width="0.9"/>
+      </g>
+      <!-- the famous wide dome, resting on the narrow neck -->
+      <g class="tier" style="animation-delay:0.12s">
+        <ellipse cx="150" cy="118" rx="52" ry="24" fill="url(#hatchDark)" stroke="var(--ink)" stroke-width="1.1"/>
+        <ellipse cx="150" cy="110" rx="44" ry="15" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="0.8" opacity="0.9"/>
+        <ellipse cx="146" cy="102" rx="24" ry="7" fill="none" stroke="var(--ink)" stroke-width="0.6" opacity="0.55"/>
+      </g>
+      <!-- neck below dome -->
+      <g class="tier" style="animation-delay:0.28s">
+        <path d="M128,142 L172,142 L166,124 L134,124 Z" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="1"/>
+      </g>
+      <!-- nine tapering talas (tiers) of the pyramidal vimana, hand-hatched -->
+      <g class="tier" style="animation-delay:0.42s">
+        <path d="M115,158 L185,158 L172,142 L128,142 Z" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="1"/>
+        <path d="M115,158 L185,158 L182,152 L118,152 Z" fill="url(#hatchDark)" opacity="0.7"/>
+        <circle cx="126" cy="150" r="1.6" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="174" cy="150" r="1.6" fill="none" stroke="var(--ink)" stroke-width="0.7"/>
+      </g>
+      <g class="tier" style="animation-delay:0.55s">
+        <path d="M108,174 L192,174 L185,158 L115,158 Z" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="1"/>
+        <path d="M108,174 L192,174 L189,168 L111,168 Z" fill="url(#hatchDark)" opacity="0.7"/>
+        <circle cx="118" cy="166" r="1.8" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="182" cy="166" r="1.8" fill="none" stroke="var(--ink)" stroke-width="0.7"/>
+      </g>
+      <g class="tier" style="animation-delay:0.68s">
+        <path d="M100,190 L200,190 L192,174 L108,174 Z" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="1"/>
+        <path d="M100,190 L200,190 L197,184 L103,184 Z" fill="url(#hatchDark)" opacity="0.7"/>
+        <circle cx="110" cy="182" r="1.9" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="150" cy="182" r="1.9" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="190" cy="182" r="1.9" fill="none" stroke="var(--ink)" stroke-width="0.7"/>
+      </g>
+      <g class="tier" style="animation-delay:0.81s">
+        <path d="M91,207 L209,207 L200,190 L100,190 Z" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="1"/>
+        <path d="M91,207 L209,207 L206,201 L94,201 Z" fill="url(#hatchDark)" opacity="0.7"/>
+        <circle cx="102" cy="199" r="2" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="150" cy="199" r="2" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="198" cy="199" r="2" fill="none" stroke="var(--ink)" stroke-width="0.7"/>
+      </g>
+      <g class="tier" style="animation-delay:0.94s">
+        <path d="M82,225 L218,225 L209,207 L91,207 Z" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="1"/>
+        <path d="M82,225 L218,225 L214,218 L86,218 Z" fill="url(#hatchDark)" opacity="0.7"/>
+        <circle cx="94" cy="216" r="2.1" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="150" cy="216" r="2.1" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="206" cy="216" r="2.1" fill="none" stroke="var(--ink)" stroke-width="0.7"/>
+      </g>
+      <g class="tier" style="animation-delay:1.07s">
+        <path d="M72,244 L228,244 L218,225 L82,225 Z" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="1"/>
+        <path d="M72,244 L228,244 L224,236 L76,236 Z" fill="url(#hatchDark)" opacity="0.7"/>
+        <circle cx="86" cy="235" r="2.2" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="150" cy="235" r="2.2" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="214" cy="235" r="2.2" fill="none" stroke="var(--ink)" stroke-width="0.7"/>
+      </g>
+      <g class="tier" style="animation-delay:1.2s">
+        <path d="M60,264 L240,264 L228,244 L72,244 Z" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="1"/>
+        <path d="M60,264 L240,264 L235,255 L65,255 Z" fill="url(#hatchDark)" opacity="0.7"/>
+        <circle cx="78" cy="254" r="2.4" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="150" cy="254" r="2.4" fill="none" stroke="var(--ink)" stroke-width="0.7"/><circle cx="222" cy="254" r="2.4" fill="none" stroke="var(--ink)" stroke-width="0.7"/>
+      </g>
+      <!-- base plinth with the sanctum doorway -->
+      <g class="tier" style="animation-delay:1.35s">
+        <rect x="45" y="264" width="210" height="14" fill="url(#hatchDark)" stroke="var(--ink)" stroke-width="1"/>
+        <rect x="55" y="278" width="190" height="10" fill="url(#hatchLight)" stroke="var(--ink)" stroke-width="1"/>
+        <rect x="65" y="288" width="20" height="32" fill="url(#hatchDark)" stroke="var(--ink)" stroke-width="0.8"/>
+        <rect x="215" y="288" width="20" height="32" fill="url(#hatchDark)" stroke="var(--ink)" stroke-width="0.8"/>
+        <path d="M110,288 L190,288 L190,320 Q150,300 110,320 Z" fill="var(--ink)" opacity="0.85"/>
+        <rect x="45" y="318" width="210" height="8" fill="url(#hatchDark)" stroke="var(--ink)" stroke-width="0.8"/>
+      </g>
+    </svg>
+  </div>
+
+  <p class="invocation tamil">விநாயகர் துணை</p>
+  <p class="invocation-sub">with the blessings of the divine</p>
+
+  <div class="arch-frame">
+    <svg class="arch-bg" viewBox="0 0 300 220" aria-hidden="true">
+      <path d="M20,220 L20,80 Q150,10 280,80 L280,220" stroke="var(--gold-light)" stroke-width="1.5" fill="none" opacity="0.55"/>
+      <path d="M35,220 L35,86 Q150,26 265,86 L265,220" stroke="var(--gold-light)" stroke-width="1" fill="none" opacity="0.35"/>
+    </svg>
+    <div class="name-line">Yuvasanthi</div>
+    <div class="name-tamil tamil">யுவசாந்தி</div>
+    <span class="amp">&amp;</span>
+    <div class="name-line">Balakumaran</div>
+    <div class="name-tamil tamil">பாலகுமரன்</div>
+    <div class="divider" aria-hidden="true">
+      <svg viewBox="0 0 140 20"><path d="M0,10 H55"/><circle cx="70" cy="10" r="4"/><path d="M85,10 H140"/></svg>
+    </div>
+    <p class="date-banner">Saturday &nbsp;·&nbsp; <span class="day">13th September</span></p>
+  </div>
+
+  <div class="scroll-cue" onclick="document.querySelector('.section').scrollIntoView({behavior:'smooth'})">scroll for details ▾</div>
+</section>
+
+<section class="section">
+  <div class="mandapam reveal">
+    <div class="pillar" aria-hidden="true"><svg viewBox="0 0 20 200" preserveAspectRatio="none"><rect width="20" height="200" fill="#C89B3C" opacity="0.35"/><rect x="8" width="4" height="200" fill="#7A1F2B" opacity="0.4"/></svg></div>
+    <div class="card">
+      <div class="bell-icon" aria-hidden="true"><svg viewBox="0 0 30 30"><line x1="15" y1="0" x2="15" y2="6" stroke="currentColor" stroke-width="1.4"/><path d="M8,6 L22,6 L25,18 Q15,24 5,18 Z" fill="currentColor"/><circle cx="15" cy="21" r="1.6" fill="#4E1119"/></svg></div>
+      <p class="en-label">The Wedding</p>
+      <h3 class="tamil">திருமணம்</h3>
+      <p class="time">6:00 AM – 7:30 AM</p>
+      <p class="venue">Sri Sivagama Sundari Udanamar<br>Chidambareshwarar Temple</p>
+      <a class="directions" href="https://www.google.com/maps/search/?api=1&query=Sri+Sivagama+Sundari+Udanamar+Chidambareshwarar+Temple" target="_blank" rel="noopener">Get Directions →</a>
+    </div>
+    <div class="pillar" aria-hidden="true"><svg viewBox="0 0 20 200" preserveAspectRatio="none"><rect width="20" height="200" fill="#C89B3C" opacity="0.35"/><rect x="8" width="4" height="200" fill="#7A1F2B" opacity="0.4"/></svg></div>
+  </div>
+
+  <div class="mandapam reveal">
+    <div class="pillar" aria-hidden="true"><svg viewBox="0 0 20 200" preserveAspectRatio="none"><rect width="20" height="200" fill="#C89B3C" opacity="0.35"/><rect x="8" width="4" height="200" fill="#7A1F2B" opacity="0.4"/></svg></div>
+    <div class="card">
+      <div class="bell-icon" aria-hidden="true"><svg viewBox="0 0 30 30"><line x1="15" y1="0" x2="15" y2="6" stroke="currentColor" stroke-width="1.4"/><path d="M8,6 L22,6 L25,18 Q15,24 5,18 Z" fill="currentColor"/><circle cx="15" cy="21" r="1.6" fill="#4E1119"/></svg></div>
+      <p class="en-label">The Reception</p>
+      <h3 class="tamil">வரவேற்பு விழா</h3>
+      <p class="time">7:00 PM – 9:00 PM</p>
+      <p class="venue">Anandha Kalyana Mandapam</p>
+      <a class="directions" href="https://www.google.com/maps/search/?api=1&query=Anandha+Kalyana+Mandapam" target="_blank" rel="noopener">Get Directions →</a>
+    </div>
+    <div class="pillar" aria-hidden="true"><svg viewBox="0 0 20 200" preserveAspectRatio="none"><rect width="20" height="200" fill="#C89B3C" opacity="0.35"/><rect x="8" width="4" height="200" fill="#7A1F2B" opacity="0.4"/></svg></div>
+  </div>
+</section>
+
+<section class="footer reveal">
+  <p class="blessing tamil">
+    இறைவனின் திருவருளால் இவ்விரு உள்ளங்களும் ஒன்றிணைந்து,<br>
+    என்றென்றும் அன்பும் மகிழ்வும் நிறைந்து வாழ வாழ்த்துகிறோம்.
+  </p>
+  <p class="blessing-en">With love and blessings, we invite you to be part of our new beginning.</p>
+  <div class="footer-mini" aria-hidden="true"><svg viewBox="0 0 100 20"><path d="M0,10 H35" stroke="#C89B3C" stroke-width="1.2" fill="none"/><circle cx="50" cy="10" r="4" fill="#7A1F2B"/><path d="M65,10 H100" stroke="#C89B3C" stroke-width="1.2" fill="none"/></svg></div>
+  <p class="footer-names">Yuvasanthi &amp; Balakumaran</p>
+</section>
+
+<script>
+  /* ---------- realistic procedural fronds for the plant columns ---------- */
+  function leafletMarkup(x, y, angleDeg, length, width, color, opacity){
+    const rad = angleDeg * Math.PI / 180;
+    const tipX = x + Math.cos(rad) * length;
+    const tipY = y + Math.sin(rad) * length + length * 0.14; // gravity droop
+    const perp = rad + Math.PI / 2;
+    const hw = width / 2;
+    const b1x = x + Math.cos(perp) * hw, b1y = y + Math.sin(perp) * hw;
+    const b2x = x - Math.cos(perp) * hw, b2y = y - Math.sin(perp) * hw;
+    const midx = x + Math.cos(rad) * length * 0.55;
+    const midy = y + Math.sin(rad) * length * 0.55 + length * 0.09;
+    return `<path d="M${b1x.toFixed(1)},${b1y.toFixed(1)} Q${midx.toFixed(1)},${midy.toFixed(1)} ${tipX.toFixed(1)},${tipY.toFixed(1)} Q${midx.toFixed(1)},${midy.toFixed(1)} ${b2x.toFixed(1)},${b2y.toFixed(1)} Z" fill="${color}" opacity="${opacity}"/>` +
+           `<path d="M${x.toFixed(1)},${y.toFixed(1)} Q${midx.toFixed(1)},${midy.toFixed(1)} ${tipX.toFixed(1)},${tipY.toFixed(1)}" stroke="#2E1A12" stroke-width="0.4" fill="none" opacity="0.25"/>`;
+  }
+
+  function frondSVG(type){
+    const isCoconut = type === 'coconut';
+    const width = 150, height = 190;
+    const baseX = 78, baseY = 188;
+    const lean = isCoconut ? 22 + Math.random() * 10 : 12 + Math.random() * 8;
+    const tipX = baseX - lean, tipY = 12 + Math.random() * 10;
+    const ctrlX = baseX - lean * 0.55, ctrlY = 96;
+
+    const pt = t => ({
+      x: (1 - t) ** 2 * baseX + 2 * (1 - t) * t * ctrlX + t ** 2 * tipX,
+      y: (1 - t) ** 2 * baseY + 2 * (1 - t) * t * ctrlY + t ** 2 * tipY
+    });
+    const tangent = t => {
+      const dx = 2 * (1 - t) * (ctrlX - baseX) + 2 * t * (tipX - ctrlX);
+      const dy = 2 * (1 - t) * (ctrlY - baseY) + 2 * t * (tipY - ctrlY);
+      return Math.atan2(dy, dx) * 180 / Math.PI;
+    };
+
+    const leafletCount = isCoconut ? 15 : 6;
+    const greens = isCoconut ? ['#3F5C3A', '#4E7A47', '#5C8A54'] : ['#4E7A47', '#3F5C3A', '#5C8A54'];
+    let leaflets = '';
+
+    for (let i = 0; i < leafletCount; i++){
+      const t = 0.1 + (i / (leafletCount - 1)) * 0.85;
+      const p = pt(t);
+      const tan = tangent(t);
+      const side = i % 2 === 0 ? 1 : -1;
+      const fullness = Math.sin(t * Math.PI * 0.95 + 0.08);
+      const spread = (isCoconut ? 58 : 42) * (0.6 + 0.4 * fullness);
+      const angle = tan + side * spread;
+      const len = (isCoconut ? 44 : 58) * (0.35 + 0.65 * fullness);
+      const wid = isCoconut ? 3 : 15 * (0.45 + 0.55 * fullness);
+      const color = greens[i % greens.length];
+      leaflets += leafletMarkup(p.x, p.y, angle, len, wid, color, 0.85 + Math.random() * 0.1);
+    }
+
+    const spine = `<path d="M${baseX},${baseY} Q${ctrlX},${ctrlY} ${tipX},${tipY}" stroke="#5B4A34" stroke-width="${isCoconut ? 2 : 3.4}" fill="none" opacity="0.75" stroke-linecap="round"/>`;
+    const stem = `<path d="M${baseX},${baseY} L${baseX + 3},${baseY + 14}" stroke="#5B4A34" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8"/>`;
+
+    return `<svg viewBox="0 0 ${width} ${height}">${stem}${spine}${leaflets}</svg>`;
+  }
+
+  document.querySelectorAll('.leaf-cluster').forEach(el => {
+    el.innerHTML = frondSVG(el.dataset.type || 'banana');
+  });
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const crackerLayer = document.getElementById('crackerLayer');
+  const sparkColors = ['#C89B3C', '#7A1F2B', '#E08A2E', '#4E7A47', '#F2D98A'];
+
+  function spawnCracker(x, y){
+    if (prefersReduced) return;
+
+    // launch trail
+    const trail = document.createElement('div');
+    trail.className = 'trail';
+    trail.style.left = x + 'px';
+    trail.style.setProperty('--th', (y + 40) + 'px');
+    trail.style.bottom = (window.innerHeight - y - 40) + 'px';
+    crackerLayer.appendChild(trail);
+    setTimeout(() => trail.remove(), 600);
+
+    setTimeout(() => {
+      const flash = document.createElement('div');
+      flash.className = 'flash';
+      flash.style.left = x + 'px';
+      flash.style.top = y + 'px';
+      crackerLayer.appendChild(flash);
+      setTimeout(() => flash.remove(), 550);
+
+      const count = 16;
+      for (let i = 0; i < count; i++){
+        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
+        const dist = 55 + Math.random() * 55;
+        const tx = Math.cos(angle) * dist;
+        const ty = Math.sin(angle) * dist;
+        const spark = document.createElement('div');
+        spark.className = 'spark';
+        spark.style.left = x + 'px';
+        spark.style.top = y + 'px';
+        spark.style.background = sparkColors[Math.floor(Math.random() * sparkColors.length)];
+        spark.style.setProperty('--tx', tx + 'px');
+        spark.style.setProperty('--ty', ty + 'px');
+        crackerLayer.appendChild(spark);
+        setTimeout(() => spark.remove(), 950);
+      }
+    }, 480);
+  }
+
+  // Reveal + firecracker trigger for each section
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        const rect = entry.target.getBoundingClientRect();
+        const cx = rect.left + rect.width * (0.25 + Math.random() * 0.5);
+        const cy = Math.max(rect.top + 30, 60);
+        spawnCracker(cx, cy);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // celebratory burst once the gopuram has finished rising
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      spawnCracker(window.innerWidth * 0.5, window.innerHeight * 0.28);
+    }, 2000);
+  });
+</script>
+
+</body>
+</html>
